@@ -8,16 +8,12 @@ import (
 )
 
 func bubbleSort(ns []int) {
-	swap := func(x, y int) (int, int) {
-		return y, x
-	}
-
 	continueSearch := true
 	for continueSearch {
 		continueSearch = false
 		for i := len(ns) - 1; i >= 1; i-- {
 			if ns[i-1] > ns[i] {
-				ns[i-1], ns[i] = swap(ns[i-1], ns[i])
+				ns[i-1], ns[i] = ns[i], ns[i-1]
 				continueSearch = true
 			}
 		}

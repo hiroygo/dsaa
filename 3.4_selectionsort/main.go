@@ -8,10 +8,6 @@ import (
 )
 
 func selectionSort(ns []int) {
-	swap := func(x, y int) (int, int) {
-		return y, x
-	}
-
 	for i := 0; i < len(ns); i++ {
 		minj := i
 		for j := i; j < len(ns); j++ {
@@ -19,7 +15,7 @@ func selectionSort(ns []int) {
 				minj = j
 			}
 		}
-		ns[i], ns[minj] = swap(ns[i], ns[minj])
+		ns[i], ns[minj] = ns[minj], ns[i]
 	}
 }
 
