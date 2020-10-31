@@ -128,10 +128,11 @@ func (list *IntList) deleteNode(p *IntListNode) {
 	list.size--
 }
 
-func (list *IntList) getAt(idx int) *IntListNode {
+func (list *IntList) getNode(idx int) *IntListNode {
 	p := list.pHead.pNext
-	for i := 0; i != idx; i++ {
+	for idx > 0 {
 		p = p.pNext
+		idx--
 	}
 	return p
 }
@@ -170,7 +171,7 @@ func (list *IntList) DeleteFisrt() {
 		return
 	}
 
-	p := list.getAt(0)
+	p := list.getNode(0)
 	list.deleteNode(p)
 }
 
@@ -179,16 +180,16 @@ func (list *IntList) DeleteLast() {
 		return
 	}
 
-	p := list.getAt(list.Size() - 1)
+	p := list.getNode(list.Size() - 1)
 	list.deleteNode(p)
 }
 
-func (list *IntList) GetAt(idx int) (int, error) {
+func (list *IntList) At(idx int) (int, error) {
 	if idx < 0 || idx >= list.Size() {
 		return 0, fmt.Errorf("invalid index %d", idx)
 	}
 
-	p := list.getAt(idx)
+	p := list.getNode(idx)
 	return p.val, nil
 }
 
@@ -217,13 +218,14 @@ func runCmds(cmds []cmd) int {
 
 	// 結果
 	for i := 0; i < list.Size(); i++ {
-		if n, err := list.GetAt(i); err != nil {
-			fmt.Fprintf(os.Stderr, "GetAt error, %v\n", err)
+		if n, err := list.At(i); err != nil {
+			fmt.Fprintf(os.Stderr, "At error, %v\n", err)
 			return 1
 		} else {
 			fmt.Printf("%d ", n)
 		}
 	}
+	fmt.Println()
 	return 0
 }
 
