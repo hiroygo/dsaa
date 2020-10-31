@@ -13,23 +13,12 @@ type intStack struct {
 	ns []int
 }
 
-func (s *intStack) push(n int) error {
-	if s == nil {
-		return errors.New("nil error")
-	}
-
+func (s *intStack) push(n int) {
 	s.ns = append([]int{n}, s.ns...)
-	return nil
 }
 
 func (s *intStack) pop() (int, error) {
-	if s == nil {
-		return 0, errors.New("nil error")
-	}
-
-	if size, err := s.size(); err != nil {
-		return 0, fmt.Errorf("size error, %v", err)
-	} else if size == 0 {
+	if s.size() == 0 {
 		return 0, errors.New("stack empty")
 	}
 
@@ -38,11 +27,8 @@ func (s *intStack) pop() (int, error) {
 	return n, nil
 }
 
-func (s *intStack) size() (int, error) {
-	if s == nil {
-		return 0, errors.New("nil error")
-	}
-	return len(s.ns), nil
+func (s *intStack) size() int {
+	return len(s.ns)
 }
 
 func calc(tokens []string) (int, error) {
@@ -60,9 +46,7 @@ func calc(tokens []string) (int, error) {
 	for _, t := range tokens {
 		// オペランドを push する
 		if n, err := strconv.Atoi(t); err == nil {
-			if err := stack.push(n); err != nil {
-				return 0, fmt.Errorf("operand push error, %v", err)
-			}
+			stack.push(n)
 			continue
 		}
 
@@ -98,9 +82,7 @@ func calc(tokens []string) (int, error) {
 				return 0, fmt.Errorf("トークン %s は不正です", t)
 			}
 		}
-		if err := stack.push(result); err != nil {
-			return 0, fmt.Errorf("operator result push error, %v", err)
-		}
+		stack.push(result)
 	}
 
 	// 最終的な計算結果
